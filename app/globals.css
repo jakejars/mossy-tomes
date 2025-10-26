@@ -21,16 +21,16 @@
 /* -----------------------------------------------------------------------
    Base Layout & Background
    ----------------------------------------------------------------------- */
-html, body {
+html {
   height: 100%;
-  width: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  scroll-behavior: smooth;
 }
 
 body {
   position: relative;
+  min-height: 100%; /* CHANGED: Allows body to grow */
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
   background: radial-gradient(ellipse at bottom, #3a5a40 0%, #1a2a1f 70%, #0a1a0f 100%);
   background-attachment: fixed; /* keep gradient fixed during scroll */
   color: var(--moss-text);
@@ -38,7 +38,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  transform: translateZ(0); /* GPU optimization */
+  /* REMOVED: transform: translateZ(0); */
 }
 
 /* -----------------------------------------------------------------------
@@ -128,10 +128,10 @@ body {
 .content-wrapper {
   position: relative;
   z-index: 10;
-  min-height: 100%;
   padding-bottom: 2rem;
   isolation: isolate; /* This is the fix for the clipping */
   overflow: visible;
+  /* REMOVED: min-height: 100%; */
 }
 
 /* -----------------------------------------------------------------------

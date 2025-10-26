@@ -1,6 +1,16 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import type {
+  EncounterGeneratorMode,
+  TerrainType,
+  ChaseType,
+  GeneratedSeed,
+  LockedSeedComponents,
+  GeneratedRandomEncounter,
+  GeneratedChaseComplication,
+  EncounterGenData
+} from '../../../types/generators';
 
 // --- Helper Functions ---
 function rollDice(diceExpression: string): number {
@@ -30,59 +40,8 @@ const getRandom = <T extends any>(arr: T[]): T | undefined => {
 };
 
 // --- TYPE DEFINITIONS ---
-
-type GeneratorMode = 'Encounter Seed' | 'Random Encounter' | 'Chase Complication';
-type TerrainType = "Arctic" | "Coastal" | "Desert" | "Forest" | "Grassland" | "Hill" | "Mountain" | "Swamp" | "Underdark" | "Urban" | "Waterborne";
-type ChaseType = "Urban" | "Wilderness";
-
-// --- 1. ENCOUNTER SEED INTERFACES ---
-interface GeneratedSeed {
-  location: string;
-  creature: string;
-  situation: string;
-  complication: string;
-  reason: string;
-}
-
-type LockedSeedComponents = {
-  [key in keyof GeneratedSeed]?: boolean;
-};
-
-// --- 2. RANDOM ENCOUNTER INTERFACES ---
-interface GeneratedRandomEncounter {
-  terrain: TerrainType;
-  encounterRoll: number;
-  result: string;
-  distance?: string;
-}
-
-// --- 3. CHASE COMPLICATION INTERFACES ---
-interface GeneratedChaseComplication {
-  type: ChaseType;
-  roll: number;
-  result: string;
-}
-
-// --- MAIN DATA INTERFACE ---
-interface EncounterGenData {
-  seedData: {
-    location: string[];
-    creature: string[];
-    situation: string[];
-    complication: string[];
-    reason: string[];
-  };
-  randomEncounterData: {
-    terrains: TerrainType[];
-    encounterDistanceByTerrain: { [key in TerrainType]: string };
-    encountersByTerrain: { [key in TerrainType]: string[] };
-  };
-  chaseData: {
-    types: ChaseType[];
-    // Updated structure for complications
-    complications: { [key in ChaseType]: { minRoll: number; maxRoll: number; text: string }[] };
-  };
-}
+// [ This block (lines 32-79) has been removed and replaced by the import above ]
+// ---
 
 // --- DEFAULT DATA (Expanded with full 1d12 chase tables) ---
 const defaultEncounterGenData: EncounterGenData = {
@@ -179,7 +138,7 @@ const defaultEncounterGenData: EncounterGenData = {
 
 export default function EncounterGeneratorPage() {
   const [encounterData, setEncounterData] = useState<EncounterGenData>(defaultEncounterGenData);
-  const [generatorMode, setGeneratorMode] = useState<GeneratorMode>('Encounter Seed');
+  const [generatorMode, setGeneratorMode] = useState<EncounterGeneratorMode>('Encounter Seed');
 
   // Seed State
   const [generatedSeed, setGeneratedSeed] = useState<GeneratedSeed | null>(null);

@@ -1,47 +1,19 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import type {
+  ShopNameParts,
+  ShopNotableItems,
+  ShopStockLevels,
+  ShopGenData,
+  GeneratedShop,
+  ShopLockedComponents,
+  SettlementWealth
+} from '../../../types/generators';
 
 // --- Interface Definitions ---
-interface ShopNameParts {
-  [key: string]: string[];
-}
-
-interface ShopNotableItems {
-  [key: string]: string[];
-}
-
-// NEW: Interface for Stock Levels
-interface ShopStockLevels {
-  [key: string]: { // Shop Type (e.g., "Smithy")
-    "Village": string[]; // Wealth Level
-    "Town": string[];
-    "City": string[];
-  };
-}
-
-interface ShopGenData {
-  shopTypes: string[];
-  wealthLevels: SettlementWealth[]; // Added
-  namePrefix: ShopNameParts;
-  nameSuffix: ShopNameParts;
-  proprietor: string[];
-  aesthetic: string[];
-  notableItem: ShopNotableItems;
-  stockLevel: ShopStockLevels; // Added
-  conflict: string[];
-}
-
-interface GeneratedShop {
-  name: string; // Mandatory
-  type: string;
-  wealth: SettlementWealth; // Added
-  proprietor: string;
-  aesthetic: string;
-  stockLevel: string; // Added
-  notableItem: string;
-  conflict: string;
-}
+// [ This block (lines 6-64) has been removed and replaced by the import above ]
+// ---
 
 // Added new fields to type guard
 function isCompleteShop(obj: Partial<GeneratedShop>): obj is GeneratedShop {
@@ -56,12 +28,6 @@ function isCompleteShop(obj: Partial<GeneratedShop>): obj is GeneratedShop {
         obj.conflict !== undefined
     );
 }
-
-type LockedComponents = {
-  [key in keyof GeneratedShop]?: boolean;
-};
-
-type SettlementWealth = "Village" | "Town" | "City";
 
 // --- Default Data - Expanded and Refined ---
 const defaultShopGenData: ShopGenData = {
@@ -318,7 +284,7 @@ export default function ShopGeneratorPage() {
   const [saveStatus, setSaveStatus] = useState('');
   const [selectedType, setSelectedType] = useState('General Wares');
   const [selectedWealth, setSelectedWealth] = useState<SettlementWealth>('Town'); // Added
-  const [lockedComponents, setLockedComponents] = useState<LockedComponents>({});
+  const [lockedComponents, setLockedComponents] = useState<ShopLockedComponents>({});
 
   // Options
   const [generateName, setGenerateName] = useState(true);

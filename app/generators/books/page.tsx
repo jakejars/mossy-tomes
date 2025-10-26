@@ -2,57 +2,20 @@
 
 import { useState, useEffect } from 'react';
 import CollapsibleSection from '../../../components/CollapsibleSection';
+import type {
+  BookThemeName,
+  BookDisplayMode,
+  BookMagicPropertyType,
+  BookAuthor,
+  BookThemeData,
+  BookGenData,
+  GeneratedBook,
+  BookLockedComponents
+} from '../../../types/generators';
 
 // --- TYPE DEFINITIONS ---
-type ThemeName = 'magic' | 'nature' | 'religion' | 'history' | 'fiction' | 'forbidden';
-type DisplayMode = 'vibe' | 'quick' | 'story';
-type MagicPropertyType = 'None' | 'Minor Property' | 'Magical Quirk' | 'Minor Sentience';
-
-interface Author {
-  name: string;
-  authorQuirk: string; // Renamed from 'quirk' to avoid conflict
-  hook: string;
-}
-
-interface ThemeData {
-  titlePrefix: string[];
-  titleSuffix: string[];
-  description: string[];
-  authors: Author[];
-}
-
-interface BookGenData {
-  themes: Record<ThemeName, ThemeData>;
-  appearance: string[];
-  condition: string[];
-  sensation: {
-    smell: string[];
-    feel: string[];
-  };
-  // New data from sourcebooks
-  magicalProperties: string[];
-  magicalQuirks: string[];
-  sentientPersonalities: string[]; // e.g., "Lawful Good, it is respectful..."
-  sentientPurposes: string[]; // e.g., "Destroyer", "Lore Seeker"
-}
-
-interface GeneratedBook {
-  title: string;
-  appearance: string;
-  sensation: string;
-  description: string;
-  author: string;
-  authorQuirk: string; // Renamed
-  hook: string;
-  // New optional fields
-  magicalProperty: string;
-  magicalQuirk: string;
-  sentience: string;
-}
-
-type LockedComponents = {
-  [key in keyof GeneratedBook]?: boolean;
-};
+// [ This block (lines 8-57) has been removed and replaced by the import above ]
+// ---
 
 // --- DEFAULT DATA (Expanded) ---
 const defaultBookGenData: BookGenData = {
@@ -325,11 +288,11 @@ export default function BookGeneratorPage() {
   const [showEditor, setShowEditor] = useState(false);
   const [jsonInput, setJsonInput] = useState('');
   const [saveStatus, setSaveStatus] = useState('');
-  const [selectedTheme, setSelectedTheme] = useState<ThemeName>('magic');
-  const [displayMode, setDisplayMode] = useState<DisplayMode>('quick');
-  const [selectedMagic, setSelectedMagic] = useState<MagicPropertyType>('None');
+  const [selectedTheme, setSelectedTheme] = useState<BookThemeName>('magic');
+  const [displayMode, setDisplayMode] = useState<BookDisplayMode>('quick');
+  const [selectedMagic, setSelectedMagic] = useState<BookMagicPropertyType>('None');
   const [storyStep, setStoryStep] = useState(1);
-  const [lockedComponents, setLockedComponents] = useState<LockedComponents>({});
+  const [lockedComponents, setLockedComponents] = useState<BookLockedComponents>({});
 
   // Load saved data
   useEffect(() => {
@@ -406,7 +369,7 @@ export default function BookGeneratorPage() {
     const authorData = getRandom(themeData.authors) || defaultBookGenData.themes.fiction.authors[0]; // Fallback
     
     // Helper function to get value or generate new
-    const getValue = (key: keyof GeneratedBook, linkedAuthor: Author): string | undefined => {
+    const getValue = (key: keyof GeneratedBook, linkedAuthor: BookAuthor): string | undefined => {
         if (fullReroll || !lockedComponents[key]) {
              // For author-linked fields, regenerate all if author is not locked
             if (['author', 'authorQuirk', 'hook'].includes(key) && !lockedComponents['author']) {
@@ -501,7 +464,7 @@ export default function BookGeneratorPage() {
       return;
     }
 
-    setLockedComponents(prev => ({ ...prev, [component]: !prev[component as keyof LockedComponents] }));
+    setLockedComponents(prev => ({ ...prev, [component]: !prev[component as keyof BookLockedComponents] }));
   };
 
   const saveData = () => {
@@ -639,7 +602,7 @@ export default function BookGeneratorPage() {
                   id="bookThemeSelect"
                   value={selectedTheme}
                   onChange={(e) => {
-                    setSelectedTheme(e.target.value as ThemeName);
+                    setSelectedTheme(e.target.value as BookThemeName);
                     setLockedComponents({}); // Reset all locks on theme change
                   }}
                   className="w-full p-2 bg-moss-800/50 border border-moss-600 rounded-lg text-moss-100 focus:ring-1 focus:ring-moss-400 focus:border-moss-400"
@@ -662,7 +625,7 @@ export default function BookGeneratorPage() {
                   id="magicPropertySelect"
                   value={selectedMagic}
                   onChange={(e) => {
-                    setSelectedMagic(e.target.value as MagicPropertyType);
+                    setSelectedMagic(e.target.value as BookMagicPropertyType);
                     // Unlock magic-related fields
                     setLockedComponents(prev => ({...prev, magicalProperty: false}));
                   }}
@@ -684,7 +647,7 @@ export default function BookGeneratorPage() {
                   <label className="flex items-center gap-2 cursor-pointer text-moss-200 hover:text-moss-100 transition-colors">
                     <input
                       type="radio" name="displayMode" value="vibe"
-                      checked={displayMode === 'vibe'} onChange={(e) => setDisplayMode(e.target.value as DisplayMode)}
+                      checked={displayMode === 'vibe'} onChange={(e) => setDisplayMode(e.target.value as BookDisplayMode)}
                       className="w-4 h-4 text-moss-600 bg-moss-800 border-moss-600 focus:ring-moss-500"
                     />
                     <span>Vibe Only (Appearance)</span>
@@ -692,7 +655,7 @@ export default function BookGeneratorPage() {
                   <label className="flex items-center gap-2 cursor-pointer text-moss-200 hover:text-moss-100 transition-colors">
                     <input
                       type="radio" name="displayMode" value="quick"
-                      checked={displayMode === 'quick'} onChange={(e) => setDisplayMode(e.target.value as DisplayMode)}
+                      checked={displayMode === 'quick'} onChange={(e) => setDisplayMode(e.target.value as BookDisplayMode)}
                       className="w-4 h-4 text-moss-600 bg-moss-800 border-moss-600 focus:ring-moss-500"
                     />
                     <span>Quick Details (All at once)</span>
@@ -702,7 +665,7 @@ export default function BookGeneratorPage() {
                       type="radio" name="displayMode" value="story"
                       checked={displayMode === 'story'}
                       onChange={(e) => {
-                        setDisplayMode(e.target.value as DisplayMode);
+                        setDisplayMode(e.target.value as BookDisplayMode);
                         setLockedComponents({}); // Reset locks for story mode
                       }}
                       className="w-4 h-4 text-moss-600 bg-moss-800 border-moss-600 focus:ring-moss-500"

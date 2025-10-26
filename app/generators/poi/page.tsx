@@ -1,6 +1,10 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import type {
+  PoiData,
+  GeneratedPoi
+} from '../../../types/generators';
 
 // Default Places of Interest data structure
 const defaultPoiData = {
@@ -83,24 +87,9 @@ const defaultPoiData = {
   ]
 };
 
-interface PoiData {
-  poiTypes: string[];
-  namePrefix: { [key: string]: string[] };
-  nameSuffix: { [key: string]: string[] };
-  keyFigure: string[];
-  aesthetic: string[];
-  speciality: { [key: string]: string[] };
-  conflict: string[];
-}
-
-interface GeneratedPoi {
-  name?: string;
-  type?: string;
-  keyFigure?: string;
-  aesthetic?: string;
-  speciality?: string;
-  conflict?: string;
-}
+// --- TYPE DEFINITIONS ---
+// [ This block (lines 73-89) has been removed and replaced by the import above ]
+// ---
 
 export default function PoiGeneratorPage() {
   const [poiData, setPoiData] = useState<PoiData>(defaultPoiData);

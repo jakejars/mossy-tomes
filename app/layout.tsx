@@ -24,9 +24,10 @@ export default function RootLayout({
         <Sidebar />
 
         {/* Content wrapper with padding to avoid sidebar */}
-        <div className="content-wrapper md:pl-64">
+        {/* CHANGED: Replaced div with main tag */}
+        <main className="content-wrapper md:pl-64">
           {children}
-        </div>
+        </main>
       </body>
     </html>
   );
