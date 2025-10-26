@@ -1,0 +1,21 @@
+'use client';
+
+export default function BlogPage() {
+  return (
+    <main className="min-h-screen py-20 px-6">
+      <div className="max-w-5xl mx-auto">
+        <h1 className="font-serif text-4xl md:text-5xl font-bold mb-6 text-moss-50">
+          Blog
+        </h1>
+        <p className="text-xl text-moss-200 mb-8">
+          Articles, development logs, and worldbuilding thoughts.
+        </p>
+        <div className="card p-6">
+          <p className="text-moss-300">
+            Coming soon! This section will host articles and updates.
+          </p>
+        </div>
+      </div>
+    </main>
+  );
+}

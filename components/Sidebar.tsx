@@ -22,6 +22,7 @@ export default function Sidebar() {
 
   const mainLinks = [
     { href: '/', label: 'Home' },
+    { href: '/blog', label: 'Blog' },
   ];
 
   const generatorLinks = [
