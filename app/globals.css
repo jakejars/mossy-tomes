@@ -66,50 +66,31 @@ body {
   width: 100%;
   height: 100%;
   opacity: 0.15;
-  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PGZpbHRlciBpZD0ibm9pc2UiPjxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjciIG51bU9jdGF2ZXM9IjIiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgibm9pc2UpIiBvcGFjaXR5PSIwLjEzIi8+PC9zdmc+');
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PGZpbHRlciBpZD0ibm9pc2UiPjxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjciIG51bU9jdGF2ZXM9IjIiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZHRoPSIxMDAlIiBmaWx0ZXI9InVybCgibm9pc2UpIiBvcGFjaXR5PSIwLjEzIi8+PC9zdmc+');
   mix-blend-mode: soft-light;
   animation: noiseMove 0.2s steps(10) infinite;
   z-index: 4;
   pointer-events: none;
+  will-change: transform; /* Hint for performance */
 }
 
-/* global low-fi grain overlay similar to the example */
-body::after {
-  content: "";
-  position: fixed;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  /* keep grain above background but below page content */
-  z-index: 9;
-  pointer-events: none;
-  background: transparent;
-  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PGZpbHRlciBpZD0ibm9pc2UiPjxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjciIG51bU9jdGF2ZXM9IjIiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgibm9pc2UpIiBvcGFjaXR5PSIwLjEzIi8+PC9zdmc+');
-  animation: grain 1.5s steps(1, end) infinite;
-}
+/* --- REMOVED redundant body::after grain animation --- */
 
-@keyframes grain {
-  0%, 100% { transform: translate(0, 0); }
-  10% { transform: translate(-5%, -10%); }
-  30% { transform: translate(3%, -15%); }
-  50% { transform: translate(12%, 9%); }
-  70% { transform: translate(-10%, 7%); }
-  90% { transform: translate(8%, 13%); }
-}
+/* --- REMOVED @keyframes grain --- */
 
 @keyframes noiseMove {
-  0% { transform: translate(0, 0); }
-  10% { transform: translate(-5%, -5%); }
-  20% { transform: translate(-10%, 5%); }
-  30% { translate(5%, -10%); }
-  40% { transform: translate(-5%, 15%); }
-  50% { transform: translate(-10%, 5%); }
-  60% { transform: translate(15%, 0); }
-  70% { transform: translate(0, 10%); }
-  80% { transform: translate(-15%, 0); }
-  90% { transform: translate(10%, 5%); }
-  100% { transform: translate(5%, 0); }
+  /* Using the subtle 1px jitter we discussed */
+  0%   { transform: translate(0, 0); }
+  10%  { transform: translate(-1px, -1px); }
+  20%  { transform: translate(1px, 1px); }
+  30%  { transform: translate(0px, 1px); }
+  40%  { transform: translate(-1px, 1px); }
+  50%  { transform: translate(1px, -1px); }
+  60%  { transform: translate(1px, 0px); }
+  70%  { transform: translate(0, 1px); }
+  80%  { transform: translate(-1px, -1px); }
+  90%  { transform: translate(1px, 0px); }
+  100% { transform: translate(0, -1px); }
 }
 
 .vignette {
