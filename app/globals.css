@@ -156,4 +156,3 @@ body::after {
     @apply bg-moss-800/60 hover:bg-moss-700/60 text-moss-200 font-medium py-2 px-4 rounded-lg border border-moss-700/30 transition-colors duration-200;
   }
 }
-
