@@ -21,7 +21,7 @@ body {
   -webkit-font-smoothing: antialiased; /* Safari, Chrome */
   -moz-osx-font-smoothing: grayscale;  /* Firefox on macOS */
   text-rendering: optimizeLegibility;
-  overflow: hidden; /* keep background fixed and avoid scroll bleed for the canvas */
+  /* overflow: hidden; <-- This line was removed to re-enable scrolling */
 }
 
 .background-layer {
@@ -102,7 +102,7 @@ body::after {
   0% { transform: translate(0, 0); }
   10% { transform: translate(-5%, -5%); }
   20% { transform: translate(-10%, 5%); }
-  30% { transform: translate(5%, -10%); }
+  30% { translate(5%, -10%); }
   40% { transform: translate(-5%, 15%); }
   50% { transform: translate(-10%, 5%); }
   60% { transform: translate(15%, 0); }
@@ -156,3 +156,4 @@ body::after {
     @apply bg-moss-800/60 hover:bg-moss-700/60 text-moss-200 font-medium py-2 px-4 rounded-lg border border-moss-700/30 transition-colors duration-200;
   }
 }
+
