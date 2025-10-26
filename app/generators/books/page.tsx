@@ -613,7 +613,7 @@ export default function BookGeneratorPage() {
   };
 
   return (
-    <main className="min-h-screen py-20 px-6 bg-gradient-to-b from-moss-950 to-gray-900 text-moss-100">
+    <main className="min-h-screen py-20 px-6 text-moss-100">
       <div className="max-w-7xl mx-auto">
         {/* Collapsible Heading + Content wrapper */}
         <CollapsibleSection title="Book & Tome Generator" defaultOpen={true} id="generator-books">
