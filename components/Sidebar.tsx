@@ -25,7 +25,6 @@ export default function Sidebar() {
   ];
 
   const generatorLinks = [
-    { href: '/generators', label: 'All Generators' },
     { href: '/generators/books', label: 'Books' },
     { href: '/generators/shops', label: 'Shops' },
     { href: '/generators/encounters', label: 'Encounters' },
