@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <main className="min-h-screen py-20 px-6 bg-gradient-to-br from-moss-800 to-moss-900 relative">
+    <main className="min-h-screen py-20 px-6 relative">
       <div className="max-w-5xl mx-auto">
         {/* Hero Section */}
         <div className="text-center mb-16">
@@ -130,3 +130,4 @@ function Section({ title, content }: { title: string; content: string }) {
     </div>
   );
 }
+
