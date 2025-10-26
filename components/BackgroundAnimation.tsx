@@ -24,39 +24,43 @@ export default function BackgroundAnimation() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let width = window.innerWidth;
-    let height = window.innerHeight;
-    const particleCount = 8;
-    let particles: Particle[] = [];
+  let width = window.innerWidth;
+  let height = window.innerHeight;
+  let particleCount = 8;
+  let particles: Particle[] = [];
     let animationFrameId: number;
 
     const resizeCanvas = () => {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
+      // Recalculate particle count based on viewport area for a denser effect on larger screens
+      // Keep bounds to avoid excessive work on very large screens
+      particleCount = Math.min(200, Math.max(60, Math.floor((width * height) / 30000)));
     };
 
     const createParticle = (): Particle => {
       const particle = {
         x: Math.random() * width,
-        y: height + 50,
-        speed: 0.1 + Math.random() * 0.2,
-        size: 2 + Math.random() * 3,
-        opacity: 0.1 + Math.random() * 0.15,
-        drift: (Math.random() - 0.5) * 0.5,
-        pulseSpeed: 0.002 + Math.random() * 0.003,
+        y: Math.random() * height,
+        // mix of slow drifting motes and some faster motes
+        speed: 0.02 + Math.random() * 0.6,
+        // mostly tiny motes with occasional larger glow
+        size: 0.6 + Math.random() * 3,
+        opacity: 0.06 + Math.random() * 0.25,
+        drift: (Math.random() - 0.5) * 1.2,
+        pulseSpeed: 0.001 + Math.random() * 0.006,
         pulseOffset: Math.random() * Math.PI * 2,
         reset() {
           this.x = Math.random() * width;
-          this.y = height + 50;
-          this.speed = 0.1 + Math.random() * 0.2;
-          this.size = 2 + Math.random() * 3;
-          this.opacity = 0.1 + Math.random() * 0.15;
-          this.drift = (Math.random() - 0.5) * 0.5;
-          this.pulseSpeed = 0.002 + Math.random() * 0.003;
+          this.y = height + (10 + Math.random() * 120);
+          this.speed = 0.02 + Math.random() * 0.6;
+          this.size = 0.6 + Math.random() * 3;
+          this.opacity = 0.06 + Math.random() * 0.25;
+          this.drift = (Math.random() - 0.5) * 1.2;
+          this.pulseSpeed = 0.001 + Math.random() * 0.006;
           this.pulseOffset = Math.random() * Math.PI * 2;
         }
       };
-      particle.y = Math.random() * height;
       return particle;
     };
 
@@ -86,7 +90,7 @@ export default function BackgroundAnimation() {
           particle.reset();
         }
 
-        const pulse = Math.sin(currentTime * particle.pulseSpeed + particle.pulseOffset) * 0.3 + 0.7;
+  const pulse = Math.sin(currentTime * particle.pulseSpeed + particle.pulseOffset) * 0.4 + 0.8;
         const currentOpacity = particle.opacity * pulse;
 
         ctx.beginPath();
@@ -107,6 +111,8 @@ export default function BackgroundAnimation() {
 
     const handleResize = () => {
       resizeCanvas();
+      // Recreate particles after resizing so density matches new size
+      initParticles();
     };
 
     const handleScroll = () => {
@@ -124,10 +130,10 @@ export default function BackgroundAnimation() {
     };
   }, []);
 
-  return (
+    return (
     <>
-      <div className="background-layer bg-gradient" />
-      <div className="background-layer texture-overlay" />
+      <div className="background-layer animatedGradient" />
+      <div className="background-layer noiseOverlay" />
       <canvas
         ref={canvasRef}
         id="subtleCanvas"

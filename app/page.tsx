@@ -1,12 +1,12 @@
-import Link from 'next/link'
+import Link from 'next/link';
 
 export default function Home() {
   return (
-    <main className="min-h-screen py-20 px-6">
+    <main className="min-h-screen py-20 px-6 bg-gradient-to-br from-moss-800 to-moss-900 relative">
       <div className="max-w-5xl mx-auto">
         {/* Hero Section */}
         <div className="text-center mb-16">
-          <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-moss-50">
+          <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-moss-50 drop-shadow-md">
             Welcome to <span className="text-moss-400">Mossy Tomes</span>
           </h1>
           <p className="text-xl md:text-2xl text-moss-200 max-w-3xl mx-auto leading-relaxed">
@@ -35,6 +35,30 @@ export default function Home() {
             href="/generators/settlements"
             icon="🏰"
           />
+          <GeneratorCard
+            title="Quest & Adventure Generator"
+            description="Generate quest seeds and adventure situations for any level."
+            href="/generators/quests"
+            icon="📜"
+          />
+          <GeneratorCard
+            title="Loot Generator"
+            description="Create treasure hoards with atmosphere, intrigue, and story hooks."
+            href="/generators/loot"
+            icon="💎"
+          />
+          <GeneratorCard
+            title="Places of Interest"
+            description="Quickly spawn taverns, libraries, ballrooms and other memorable locales."
+            href="/generators/poi"
+            icon="🏠"
+          />
+          <GeneratorCard
+            title="Books & Tomes"
+            description="Generate mysterious books, their authors, and magical curiosities."
+            href="/generators/books"
+            icon="📚"
+          />
         </div>
 
         {/* Additional Sections */}
@@ -55,7 +79,7 @@ export default function Home() {
 
         {/* Coming Soon */}
         <div className="mt-16 text-center">
-          <h2 className="font-serif text-2xl md:text-3xl font-semibold mb-4 text-moss-100">
+          <h2 className="font-serif text-2xl md:text-3xl font-semibold mb-4 text-moss-100 animate-pulse">
             More Tools Coming Soon
           </h2>
           <p className="text-moss-300">
@@ -64,18 +88,18 @@ export default function Home() {
         </div>
       </div>
     </main>
-  )
+  );
 }
 
 function GeneratorCard({ title, description, href, icon }: {
-  title: string
-  description: string
-  href: string
-  icon: string
+  title: string;
+  description: string;
+  href: string;
+  icon: string;
 }) {
   return (
     <Link href={href}>
-      <div className="card p-6 hover:border-moss-500/40 transition-all duration-300 h-full group cursor-pointer">
+      <div className="card p-6 bg-moss-800/50 border border-moss-700/20 rounded-xl backdrop-blur-sm hover:border-moss-500/40 transition-all duration-300 h-full group cursor-pointer">
         <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
           {icon}
         </div>
@@ -91,12 +115,12 @@ function GeneratorCard({ title, description, href, icon }: {
         </div>
       </div>
     </Link>
-  )
+  );
 }
 
 function Section({ title, content }: { title: string; content: string }) {
   return (
-    <div className="card p-8">
+    <div className="card p-8 bg-moss-800/60 border border-moss-700/30 rounded-lg shadow-md">
       <h2 className="font-serif text-2xl font-semibold mb-4 text-moss-100">
         {title}
       </h2>
@@ -104,5 +128,5 @@ function Section({ title, content }: { title: string; content: string }) {
         {content}
       </p>
     </div>
-  )
+  );
 }
