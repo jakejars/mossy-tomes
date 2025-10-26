@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import './globals.css'; // Imports the optimised CSS file
+import './globals.css'; // Imports the correct CSS file
 import Sidebar from '@/components/Sidebar';
 import BackgroundAnimation from '@/components/BackgroundAnimation';
 

@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap');
-/* Optional: load a neutral sans-serif for body UI text */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
 @tailwind base;
@@ -12,21 +11,18 @@
   --moss-accent: #90ee90;
 }
 
-/* Ensure html and body can scroll */
 html, body {
   height: 100%;
 }
 
 body {
-  /* Use the mossy radial gradient from the provided design */
   background: radial-gradient(ellipse at bottom, #3a5a40 0%, #1a2a1f 70%, #0a1a0f 100%);
   color: var(--moss-text);
-  /* Use a clean sans-serif for body text while keeping decorative headings available via Tailwind's font-serif */
   font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  -webkit-font-smoothing: antialiased; /* Safari, Chrome */
-  -moz-osx-font-smoothing: grayscale;  /* Firefox on macOS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  overflow-y: auto; /* Ensure scrolling is enabled */
+  overflow-y: auto;
 }
 
 .background-layer {
@@ -76,12 +72,10 @@ body {
   animation: noiseMove 0.2s steps(10) infinite;
   z-index: 4;
   pointer-events: none;
-  will-change: transform; /* Hint for performance */
+  will-change: transform; 
 }
 
-/* THIS IS THE CORRECTED ANIMATION BLOCK 
-  It replaces the buggy one from app/layout.tsx 
-*/
+/* This is the corrected, performant animation */
 @keyframes noiseMove {
   0%   { transform: translate(0, 0); }
   10%  { transform: translate(-1px, -1px); }
@@ -110,11 +104,9 @@ body {
 }
 
 #subtleCanvas {
-  /* Slightly more visible canvas so extra particles show through */
   opacity: 0.6;
 }
 
-/* Make particle canvas sit above the animated gradient but beneath page UI */
 #particle-canvas {
   z-index: 3;
   opacity: 0.85;
@@ -125,7 +117,7 @@ body {
   position: relative;
   z-index: 10;
   min-height: 100vh;
-  isolation: isolate; /* Fixes backdrop-blur clipping fixed backgrounds */
+  isolation: isolate; /* This fixes the vignette/scrolling issue */
 }
 
 @layer components {
@@ -138,6 +130,6 @@ body {
   }
 
   .btn-secondary {
-    @apply bg-moss-800/60 hover:bg-moss-700/60 text-moss-200 font-medium py-2 px-4 rounded-lg border border-moss-700/30 transition-colors duration-20Z00;
+    @apply bg-moss-800/60 hover:bg-moss-700/60 text-moss-200 font-medium py-2 px-4 rounded-lg border border-moss-700/30 transition-colors duration-200;
   }
 }
