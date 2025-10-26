@@ -21,125 +21,143 @@ export default function BackgroundAnimation() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+  const c = canvas as HTMLCanvasElement;
+  const context = ctx as CanvasRenderingContext2D;
 
-  let width = window.innerWidth;
-  let height = window.innerHeight;
-  let particleCount = 8;
-  let particles: Particle[] = [];
-    let animationFrameId: number;
+        // Particle system based on the provided example (motes + dof particles)
+        let particles: Array<any> = [];
+        const MOTE_COUNT = 70;
+        const PARTICLE_COUNT = 100;
+        let animationFrameId: number;
 
-    const resizeCanvas = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-      // Recalculate particle count based on viewport area for a denser effect on larger screens
-      // Keep bounds to avoid excessive work on very large screens
-      particleCount = Math.min(200, Math.max(60, Math.floor((width * height) / 30000)));
-    };
+        const dpr = typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1;
 
-    const createParticle = (): Particle => {
-      const particle = {
-        x: Math.random() * width,
-        y: Math.random() * height,
-        // mix of slow drifting motes and some faster motes
-        speed: 0.02 + Math.random() * 0.6,
-        // mostly tiny motes with occasional larger glow
-        size: 0.6 + Math.random() * 3,
-        opacity: 0.06 + Math.random() * 0.25,
-        drift: (Math.random() - 0.5) * 1.2,
-        pulseSpeed: 0.001 + Math.random() * 0.006,
-        pulseOffset: Math.random() * Math.PI * 2,
-        reset() {
-          this.x = Math.random() * width;
-          this.y = height + (10 + Math.random() * 120);
-          this.speed = 0.02 + Math.random() * 0.6;
-          this.size = 0.6 + Math.random() * 3;
-          this.opacity = 0.06 + Math.random() * 0.25;
-          this.drift = (Math.random() - 0.5) * 1.2;
-          this.pulseSpeed = 0.001 + Math.random() * 0.006;
-          this.pulseOffset = Math.random() * Math.PI * 2;
-        }
-      };
-      return particle;
-    };
-
-    const initParticles = () => {
-      particles = [];
-      for (let i = 0; i < particleCount; i++) {
-        particles.push(createParticle());
-      }
-    };
-
-    resizeCanvas();
-    initParticles();
-
-    const startTime = Date.now();
-
-    const animate = () => {
-      const currentTime = Date.now() - startTime;
-
-      ctx.fillStyle = 'rgba(26, 37, 32, 0.05)';
-      ctx.fillRect(0, 0, width, height);
-
-      particles.forEach(particle => {
-        particle.y -= particle.speed;
-        particle.x += particle.drift;
-
-        if (particle.y < -50 || particle.x < -50 || particle.x > width + 50) {
-          particle.reset();
+        function resizeCanvas() {
+          const w = Math.max(1, Math.floor(window.innerWidth));
+          const h = Math.max(1, Math.floor(window.innerHeight));
+          c.width = Math.floor(w * dpr);
+          c.height = Math.floor(h * dpr);
+          c.style.width = `${w}px`;
+          c.style.height = `${h}px`;
+          context.setTransform(dpr, 0, 0, dpr, 0, 0);
+          initParticles();
         }
 
-  const pulse = Math.sin(currentTime * particle.pulseSpeed + particle.pulseOffset) * 0.4 + 0.8;
-        const currentOpacity = particle.opacity * pulse;
+        class ParticleV2 {
+          type: 'mote' | 'particle';
+          x!: number;
+          y!: number;
+          z!: number;
+          speedY!: number;
+          speedX!: number;
+          radius!: number;
+          color!: string;
+          glow!: number;
+          glowColor!: string;
 
-        ctx.beginPath();
-        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(159, 201, 159, ${currentOpacity})`;
-        ctx.fill();
+          constructor(type: 'mote' | 'particle') {
+            this.type = type;
+            this.reset();
+          }
 
-        ctx.beginPath();
-        ctx.arc(particle.x, particle.y, particle.size * 2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(159, 201, 159, ${currentOpacity * 0.1})`;
-        ctx.fill();
-      });
+          reset() {
+            const w = c.width / dpr;
+            const h = c.height / dpr;
+            this.x = Math.random() * w;
 
-      animationFrameId = requestAnimationFrame(animate);
-    };
+            if (this.type === 'mote') {
+              this.y = h + Math.random() * 100;
+              this.z = Math.random() * 0.6 + 0.4;
+              this.speedY = -(this.z * 0.8 + 0.5);
+              this.speedX = (Math.random() - 0.5) * 0.5;
+              this.radius = (Math.random() * 1.5 + 1) * this.z;
+              this.color = `rgba(220,255,230,${this.z * 0.6 + 0.1})`;
+              this.glow = 15;
+              this.glowColor = 'rgba(255,255,255,0.05)';
+            } else {
+              this.y = Math.random() * h;
+              this.z = Math.random() * 0.3 + 0.1;
+              this.speedY = this.z * 0.4;
+              this.speedX = 0;
+              this.radius = (Math.random() * 1 + 0.5) * this.z;
+              this.color = `rgba(180,220,190,${this.z * 0.5 + 0.1})`;
+              this.glow = 5;
+              this.glowColor = this.color;
+            }
+          }
 
-    animate();
+          update() {
+            this.y += this.speedY;
+            this.x += this.speedX;
 
-    const handleResize = () => {
-      resizeCanvas();
-      // Recreate particles after resizing so density matches new size
-      initParticles();
-    };
+            const w = c.width / dpr;
+            const h = c.height / dpr;
 
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      canvas.style.transform = `translateY(${scrollY * 0.3}px)`;
-    };
+            if (this.type === 'mote' && this.y < -this.radius) {
+              this.reset();
+              this.y = h + this.radius;
+            } else if (this.type === 'particle' && this.y > h + this.radius) {
+              this.reset();
+              this.y = -this.radius;
+            }
 
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('scroll', handleScroll);
+            if (this.x < -this.radius) {
+              this.reset();
+              this.x = w + this.radius;
+            } else if (this.x > w + this.radius) {
+              this.reset();
+              this.x = -this.radius;
+            }
+          }
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('scroll', handleScroll);
-      cancelAnimationFrame(animationFrameId);
-    };
+          draw() {
+            context.beginPath();
+            context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            context.shadowBlur = this.glow;
+            context.shadowColor = this.glowColor;
+            context.fillStyle = this.color;
+            context.fill();
+          }
+        }
+
+        function initParticles() {
+          particles = [];
+          for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new ParticleV2('particle'));
+          for (let i = 0; i < MOTE_COUNT; i++) particles.push(new ParticleV2('mote'));
+        }
+
+        function animate() {
+          const w = c.width / dpr;
+          const h = c.height / dpr;
+          context.clearRect(0, 0, w, h);
+          context.shadowBlur = 0;
+          for (const p of particles) {
+            p.update();
+            p.draw();
+          }
+          animationFrameId = requestAnimationFrame(animate);
+        }
+
+        // Init
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Start loop
+        animate();
+
+        return () => {
+          window.removeEventListener('resize', resizeCanvas);
+          cancelAnimationFrame(animationFrameId);
+        };
   }, []);
 
     return (
-    <>
-      <div className="background-layer animatedGradient" />
-      <div className="background-layer noiseOverlay" />
-      <canvas
-        ref={canvasRef}
-        id="subtleCanvas"
-        className="background-layer"
-      />
-      <div className="background-layer vignette" />
-    </>
-  );
+      <>
+        <div className="background-layer animatedGradient" />
+        <canvas ref={canvasRef} id="particle-canvas" className="background-layer" />
+        <div className="background-layer vignette" />
+      </>
+    );
 }

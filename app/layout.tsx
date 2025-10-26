@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import BackgroundAnimation from '../components/BackgroundAnimation';
+import Sidebar from '../components/Sidebar';
 
 export const metadata: Metadata = {
   title: 'Mossy Tomes - TTRPG Tools & Worldbuilding',
@@ -16,7 +17,8 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <BackgroundAnimation />
-        <div className="content-wrapper">
+        <Sidebar />
+        <div className="content-wrapper md:ml-64">
           {children}
         </div>
       </body>

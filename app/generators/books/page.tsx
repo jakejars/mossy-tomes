@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import CollapsibleSection from '../../../components/CollapsibleSection';
 
 // --- TYPE DEFINITIONS ---
 type ThemeName = 'magic' | 'nature' | 'religion' | 'history' | 'fiction' | 'forbidden';
@@ -614,17 +615,13 @@ export default function BookGeneratorPage() {
   return (
     <main className="min-h-screen py-20 px-6 bg-gradient-to-b from-moss-950 to-gray-900 text-moss-100">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4 text-moss-50">
-            Book & Tome Generator
-          </h1>
-          <p className="text-lg text-moss-200">
+        {/* Collapsible Heading + Content wrapper */}
+        <CollapsibleSection title="Book & Tome Generator" defaultOpen={true} id="generator-books">
+          <p className="text-lg text-moss-200 md:text-left text-center mb-6">
             Create mysterious tomes with history, intrigue, and magical hooks
           </p>
-        </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+          <div className="grid lg:grid-cols-2 gap-8">
           {/* Left Column: Generator */}
           <div className="space-y-6">
             {/* Options Card */}
@@ -893,6 +890,7 @@ export default function BookGeneratorPage() {
             </div>
           </div>
         </div>
+        </CollapsibleSection>
       </div>
     </main>
   );
