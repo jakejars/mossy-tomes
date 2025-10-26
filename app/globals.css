@@ -1,3 +1,7 @@
+/* =======================================================================
+   globals.css — Mossy Tomes (fixed background & scroll clipping)
+   ======================================================================= */
+
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
@@ -5,50 +9,63 @@
 @tailwind components;
 @tailwind utilities;
 
+/* -----------------------------------------------------------------------
+   Root Variables
+   ----------------------------------------------------------------------- */
 :root {
   --moss-bg: #1a2f1c;
   --moss-text: #e8e6d9;
   --moss-accent: #90ee90;
 }
 
+/* -----------------------------------------------------------------------
+   Base Layout & Background
+   ----------------------------------------------------------------------- */
 html, body {
   height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 body {
+  position: relative;
   background: radial-gradient(ellipse at bottom, #3a5a40 0%, #1a2a1f 70%, #0a1a0f 100%);
+  background-attachment: fixed; /* keep gradient fixed during scroll */
   color: var(--moss-text);
   font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  overflow-y: auto;
+  transform: translateZ(0); /* GPU optimization */
 }
 
-.background-layer {
+/* -----------------------------------------------------------------------
+   Layered Background Elements
+   ----------------------------------------------------------------------- */
+.background-layer,
+.animatedGradient,
+.noiseOverlay,
+.vignette {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 0;
+  will-change: opacity, transform;
 }
 
+/* Animated Gradient Layer */
 .animatedGradient {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   background: 
     radial-gradient(ellipse at 20% 30%, rgba(76, 140, 74, 0.08) 0%, transparent 50%),
     radial-gradient(ellipse at 80% 70%, rgba(34, 139, 34, 0.06) 0%, transparent 50%);
   animation: gradientShift 20s ease-in-out infinite alternate;
   z-index: 2;
-  pointer-events: none;
 }
 
+/* Gradient animation */
 @keyframes gradientShift {
   0% {
     opacity: 0.3;
@@ -60,22 +77,16 @@ body {
   }
 }
 
+/* Noise Overlay Layer */
 .noiseOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   opacity: 0.15;
   background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PGZpbHRlciBpZD0ibm9pc2UiPjxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjciIG51bU9jdGF2ZXM9IjIiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlci48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZHRoPSIxMDAlIiBmaWx0ZXI9InVybCgibm9pc2UpIiBvcGFjaXR5PSIwLjEzIi8+PC9zdmc+');
   mix-blend-mode: soft-light;
   animation: noiseMove 0.2s steps(10) infinite;
   z-index: 4;
-  pointer-events: none;
-  will-change: transform; 
 }
 
-/* This is the corrected, performant animation */
+/* Noise animation */
 @keyframes noiseMove {
   0%   { transform: translate(0, 0); }
   10%  { transform: translate(-1px, -1px); }
@@ -90,19 +101,17 @@ body {
   100% { transform: translate(0, -1px); }
 }
 
+/* Vignette Edge Layer */
 .vignette {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   box-shadow: 
     inset 0 0 150px rgba(0, 0, 0, 0.7),
     inset 0 0 300px rgba(0, 0, 0, 0.4);
   z-index: 6;
-  pointer-events: none;
 }
 
+/* -----------------------------------------------------------------------
+   Canvas / FX Layers
+   ----------------------------------------------------------------------- */
 #subtleCanvas {
   opacity: 0.6;
 }
@@ -113,13 +122,21 @@ body {
   pointer-events: none;
 }
 
+/* -----------------------------------------------------------------------
+   Content Wrapper (Prevents Clipping)
+   ----------------------------------------------------------------------- */
 .content-wrapper {
   position: relative;
   z-index: 10;
-  min-height: 100vh;
-  isolation: isolate; /* This fixes the vignette/scrolling issue */
+  min-height: 100%;
+  padding-bottom: 2rem;
+  isolation: isolate;
+  overflow: visible;
 }
 
+/* -----------------------------------------------------------------------
+   Components
+   ----------------------------------------------------------------------- */
 @layer components {
   .card {
     @apply bg-moss-800/50 border border-moss-700/20 rounded-xl backdrop-blur-sm;
