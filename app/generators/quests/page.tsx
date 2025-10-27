@@ -411,7 +411,7 @@ export default function QuestGeneratorPage() {
   );
 
   return (
-    <main className="min-h-screen py-20 px-6 bg-gradient-to-b from-moss-950 to-gray-900 text-moss-100"> {/* Added gradient and text color */}
+    <main className="min-h-screen py-20 px-6 text-moss-100"> {/* Removed background classes */} {/* Added gradient and text color */}
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">

@@ -406,7 +406,7 @@ export default function EncounterGeneratorPage() {
   };
 
   return (
-    <main className="min-h-screen py-20 px-6 bg-gradient-to-b from-moss-950 to-gray-900 text-moss-100">
+    <main className="min-h-screen py-20 px-6 text-moss-100"> {/* Removed background classes */}
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
