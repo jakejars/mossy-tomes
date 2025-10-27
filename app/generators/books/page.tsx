@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import CollapsibleSection from '../../../components/CollapsibleSection';
+// REMOVED: CollapsibleSection import removed
 import type {
   BookThemeName,
   BookDisplayMode,
@@ -11,11 +11,10 @@ import type {
   BookGenData,
   GeneratedBook,
   BookLockedComponents
-} from '../../../types/generators';
+} from '../../../types/generators'; // Import types from central file
 
 // --- TYPE DEFINITIONS ---
-// [ This block (lines 8-57) has been removed and replaced by the import above ]
-// ---
+// Types are now imported from ../../../types/generators
 
 // --- DEFAULT DATA (Expanded) ---
 const defaultBookGenData: BookGenData = {
@@ -159,7 +158,6 @@ const defaultBookGenData: BookGenData = {
         }
       ]
     },
-    // NEW THEME
     forbidden: {
       titlePrefix: ["The Ashen Codex", "The Book of", "The Shadow Grimoire", "Notes on", "A Treatise on", "The Lament of", "The Unveiling", "The Final Verses of"],
       titleSuffix: ["Vile Darkness", "Forbidden Flesh", "the Void", "Lost Souls", "Shadowmancy", "the Whispered One", "the Chained God", "the Faceless Lord"],
@@ -223,7 +221,6 @@ const defaultBookGenData: BookGenData = {
       "the book feels much lighter than it looks", "the pages are sharp and cut your fingers"
     ]
   },
-  // NEW DATA from DMG Ch7
   magicalProperties: [
     "Beacon: As a bonus action, you can make it shed bright light (10ft) and dim light (10ft), or extinguish it.",
     "Compass: As an action, you learn which way is north.",
@@ -300,7 +297,6 @@ export default function BookGeneratorPage() {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        // Check for new properties
         if (parsed.themes && parsed.magicalProperties && parsed.magicalQuirks && parsed.themes.forbidden) { // Check for new theme
           setBookData(parsed);
           setJsonInput(JSON.stringify(parsed, null, 2));
@@ -323,10 +319,17 @@ export default function BookGeneratorPage() {
   };
 
   const resetToDefaultData = () => {
-    setBookData(defaultBookGenData);
-    setJsonInput(JSON.stringify(defaultBookGenData, null, 2));
-    localStorage.removeItem('worldBuilderBookData_v3');
+    if (confirm('Reset all data to defaults? Your customisations will be lost.')) { // Added confirmation
+      setBookData(defaultBookGenData);
+      setJsonInput(JSON.stringify(defaultBookGenData, null, 2));
+      localStorage.removeItem('worldBuilderBookData_v3');
+      setLockedComponents({}); // Reset locks
+      setGeneratedBook(null); // Clear generated output
+      setSaveStatus('↻ Reset to defaults');
+      setTimeout(() => setSaveStatus(''), 3000);
+    }
   };
+
 
   const generateComponent = (component: keyof GeneratedBook): string | undefined => {
     const themeData = bookData.themes[selectedTheme];
@@ -350,14 +353,13 @@ export default function BookGeneratorPage() {
         if (component === 'authorQuirk') return authorData.authorQuirk;
         if (component === 'hook') return authorData.hook;
         return undefined;
-      // New magical property generation
       case 'magicalProperty':
         return selectedMagic === 'Minor Property' ? getRandom(bookData.magicalProperties) : undefined;
       case 'magicalQuirk':
          return selectedMagic === 'Magical Quirk' ? getRandom(bookData.magicalQuirks) : undefined;
       case 'sentience':
-        return selectedMagic === 'Minor Sentience' 
-          ? `This item is sentient. It is ${getRandom(bookData.sentientPersonalities)} It seeks to '${getRandom(bookData.sentientPurposes)}'` 
+        return selectedMagic === 'Minor Sentience'
+          ? `This item is sentient. It is ${getRandom(bookData.sentientPersonalities)} It seeks to '${getRandom(bookData.sentientPurposes)}'`
           : undefined;
       default:
         return undefined;
@@ -418,7 +420,6 @@ export default function BookGeneratorPage() {
       author: authorName || 'Unknown',
       authorQuirk: authorQuirk || 'was unremarkable.',
       hook: hook || 'This book contains a secret.',
-      // New fields
       magicalProperty: magProp || '',
       magicalQuirk: magQuirk || '',
       sentience: sentience || '',
@@ -518,22 +519,20 @@ export default function BookGeneratorPage() {
   };
 
   // Component with lock/reroll buttons
-  const ComponentWithControls = ({ 
-    label, 
-    content, 
+  const ComponentWithControls = ({
+    label,
+    content,
     component,
     subContent = '',
     isOptional = false,
-  }: { 
-    label?: string; 
-    content: string | undefined; 
+  }: {
+    label?: string;
+    content: string | undefined;
     component: keyof GeneratedBook; // This is the 'lock key'
     subContent?: string;
     isOptional?: boolean;
   }) => {
-      // Don't render if it's optional and content is empty/undefined
       if(isOptional && (!content || content.trim() === '')) return null;
-      // Default content if main content is missing but it's not optional
       const displayContent = content || (isOptional ? '' : 'N/A');
 
       const isLocked = lockedComponents[component as keyof GeneratedBook];
@@ -578,13 +577,21 @@ export default function BookGeneratorPage() {
   return (
     <main className="min-h-screen py-20 px-6 text-moss-100">
       <div className="max-w-7xl mx-auto">
-        {/* Collapsible Heading + Content wrapper */}
-        <CollapsibleSection title="Book & Tome Generator" defaultOpen={true} id="generator-books">
-          <p className="text-lg text-moss-200 md:text-left text-center mb-6">
+        {/* --- START: Removed CollapsibleSection --- */}
+        {/* Header Section */}
+        <div className="text-center mb-12"> {/* Added text-center */}
+          <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4 text-moss-50"> {/* Centered by default */}
+            Book & Tome Generator
+          </h1>
+          <p className="text-lg text-moss-200 mb-6"> {/* Added mb-6 */}
             Create mysterious tomes with history, intrigue, and magical hooks
           </p>
+        </div>
 
-          <div className="grid lg:grid-cols-2 gap-8">
+        {/* Generator Content Grid */}
+        <div className="grid lg:grid-cols-2 gap-8">
+        {/* --- END: Removed CollapsibleSection --- */}
+
           {/* Left Column: Generator */}
           <div className="space-y-6">
             {/* Options Card */}
@@ -603,7 +610,7 @@ export default function BookGeneratorPage() {
                   value={selectedTheme}
                   onChange={(e) => {
                     setSelectedTheme(e.target.value as BookThemeName);
-                    setLockedComponents({}); // Reset all locks on theme change
+                    setLockedComponents({});
                   }}
                   className="w-full p-2 bg-moss-800/50 border border-moss-600 rounded-lg text-moss-100 focus:ring-1 focus:ring-moss-400 focus:border-moss-400"
                 >
@@ -616,7 +623,7 @@ export default function BookGeneratorPage() {
                 </select>
               </div>
 
-               {/* NEW: Magical Property Selector */}
+               {/* Magical Property Selector */}
               <div className="mb-4">
                 <label className="block text-sm font-medium text-moss-200 mb-2" htmlFor="magicPropertySelect">
                   Magical Property
@@ -626,7 +633,6 @@ export default function BookGeneratorPage() {
                   value={selectedMagic}
                   onChange={(e) => {
                     setSelectedMagic(e.target.value as BookMagicPropertyType);
-                    // Unlock magic-related fields
                     setLockedComponents(prev => ({...prev, magicalProperty: false}));
                   }}
                   className="w-full p-2 bg-moss-800/50 border border-moss-600 rounded-lg text-moss-100 focus:ring-1 focus:ring-moss-400 focus:border-moss-400"
@@ -666,7 +672,7 @@ export default function BookGeneratorPage() {
                       checked={displayMode === 'story'}
                       onChange={(e) => {
                         setDisplayMode(e.target.value as BookDisplayMode);
-                        setLockedComponents({}); // Reset locks for story mode
+                        setLockedComponents({});
                       }}
                       className="w-4 h-4 text-moss-600 bg-moss-800 border-moss-600 focus:ring-moss-500"
                     />
@@ -676,7 +682,7 @@ export default function BookGeneratorPage() {
               </div>
 
               <button
-                onClick={() => generateBook(false)} // Pass false to respect locks
+                onClick={() => generateBook(false)}
                 className="btn-primary w-full text-lg py-3 transition-transform transform hover:scale-105"
               >
                 {generatedBook ? 'Generate / Reroll Unlocked' : 'Generate Book'}
@@ -686,7 +692,6 @@ export default function BookGeneratorPage() {
             {/* Generated Book Display */}
             {generatedBook && (
               <div className="card p-8 bg-moss-900/70 border border-moss-700/50 shadow-lg rounded-xl">
-                {/* Title */}
                  <ComponentWithControls label="" content={generatedBook.title} component="title" />
                 
                 <div className="space-y-0">
@@ -707,7 +712,7 @@ export default function BookGeneratorPage() {
                       <ComponentWithControls label="" content={generatedBook.description} component="description" />
                       <hr className="border-moss-600 my-4"/>
                       <ComponentWithControls label="Author" content={generatedBook.author} component="author" subContent={`(who ${generatedBook.authorQuirk})`} />
-                      <ComponentWithControls label="Hook" content={generatedBook.hook} component="author" /> {/* Linked to author lock */}
+                      <ComponentWithControls label="Hook" content={generatedBook.hook} component="author" />
                     </>
                   )}
 
@@ -788,7 +793,7 @@ export default function BookGeneratorPage() {
               {showEditor ? (
                 <>
                   <p className="text-sm text-moss-400 mb-4 italic">
-                    Edit the JSON below to customise themes, authors, hooks, magical properties, and more. 
+                    Edit the JSON below to customise themes, authors, hooks, magical properties, and more.
                     Your changes are saved locally to your browser.
                   </p>
                   <textarea
@@ -813,8 +818,8 @@ export default function BookGeneratorPage() {
                   </div>
                   {saveStatus && (
                     <p className={`text-center mt-3 font-medium text-sm ${
-                      saveStatus.includes('✓') || saveStatus.includes('↻') 
-                        ? 'text-green-400' 
+                      saveStatus.includes('✓') || saveStatus.includes('↻')
+                        ? 'text-green-400'
                         : 'text-red-400'
                     }`}>
                       {saveStatus}
@@ -853,7 +858,7 @@ export default function BookGeneratorPage() {
             </div>
           </div>
         </div>
-        </CollapsibleSection>
+        {/* --- Removed closing </CollapsibleSection> tag --- */}
       </div>
     </main>
   );
