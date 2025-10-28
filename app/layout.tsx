@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css'; // This imports your correct CSS file
 import Sidebar from '@/components/Sidebar';
 import BackgroundAnimation from '@/components/BackgroundAnimation';
+import { ClientErrorBoundary } from '@/components/ClientErrorBoundary';
 
 export const metadata: Metadata = {
   title: 'Mossy Tomes',
@@ -26,7 +27,7 @@ export default function RootLayout({
         {/* Content wrapper with padding to avoid sidebar */}
         {/* CHANGED: Replaced div with main tag */}
         <main className="content-wrapper md:pl-64">
-          {children}
+          <ClientErrorBoundary>{children}</ClientErrorBoundary>
         </main>
       </body>
     </html>
