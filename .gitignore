@@ -28,3 +28,14 @@ yarn-error.log*
 # IDE
 .vscode/
 .idea/
+*.sublime-project
+*.sublime-workspace
+
+# Testing
+coverage/
+.nyc_output/
+
+# Misc
+*.log
+.cache/
+.turbo/

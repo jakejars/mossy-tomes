@@ -1,0 +1,51 @@
+{
+  "categories": ["Dwarf", "Elf", "Human", "Halfling", "Orc", "Fantasy", "Roman", "Japanese"],
+  "titles": [
+    "the Brave", "the Bold", "the Wise", "the Strong", "the Quick", "the Clever",
+    "Ironhand", "Shadow-walker", "Swift-arrow", "Bright-eye", "the Wanderer",
+    "of the Mountain", "of the Forest", "of the River", "of the Vale", "the Smith",
+    "the Red", "the Black", "the Grey", "the White", "the Green"
+  ],
+  "names": {
+    "Dwarf": {
+      "male": ["Adrik", "Baern", "Brottor", "Dain", "Eberk", "Fargrim", "Gardain", "Harbek", "Kildrak", "Morgran", "Orsik", "Thoradin", "Ulfgar", "Veit", "Vondal"],
+      "female": ["Amber", "Artin", "Audhild", "Bardryn", "Dagnal", "Diesa", "Eldeth", "Falkrunn", "Gunnloda", "Helja", "Hlin", "Kathra", "Kristryd", "Sannl", "Torgga"],
+      "surname": ["Balderk", "Battlehammer", "Brawnanvil", "Dankil", "Fireforge", "Frostbeard", "Gorunn", "Holderhek", "Ironfist", "Loderr", "Lutgehr", "Rumnaheim", "Strakeln", "Torunn", "Ungart"]
+    },
+    "Elf": {
+      "male": ["Adran", "Aelar", "Beiro", "Carric", "Erdan", "Galinndan", "Hadarai", "Immeral", "Laucian", "Mindartis", "Paelias", "Quarion", "Riardon", "Sovellios", "Theren"],
+      "female": ["Adrie", "Althaea", "Bethrynna", "Caelynn", "Drusilia", "Enna", "Felosial", "Ielenia", "Jelenneth", "Keyleth", "Leshanna", "Meriele", "Naivara", "Sariel", "Valanthe"],
+      "surname": ["Amakiir", "Amastacia", "Galanodel", "Holimion", "Ilphelkiir", "Liadon", "Meliamne", "Naïlo", "Siannodel", "Xiloscient", "Silverbrow", "Moonwhisper", "Starflower"]
+    },
+    "Human": {
+      "male": ["Ander", "Bram", "Corrin", "Daveth", "Erik", "Finnan", "Garrick", "Hadrian", "Joric", "Kaelen", "Loric", "Merek", "Orion", "Perrin", "Roric", "Stefan", "Tarek", "Varrus"],
+      "female": ["Alina", "Bryn", "Cora", "Elara", "Faye", "Gwen", "Helena", "Isolde", "Janna", "Kiera", "Linnea", "Miri", "Nadia", "Renna", "Sorina", "Tessa", "Vasha"],
+      "surname": ["Blackwood", "Grey", "Stormwind", "Ashford", "Fairchild", "Hawthorne", "Landon", "Merrin", "Rowan", "Silver", "Thorne", "West", "Oakhart", "Rivers", "Stonewell"]
+    },
+    "Halfling": {
+      "male": ["Alton", "Corrin", "Eldon", "Finnan", "Lyle", "Merric", "Milo", "Osborn", "Perrin", "Reed", "Roscoe", "Wellby", "Jasper", "Pip", "Tobin"],
+      "female": ["Bree", "Callie", "Cora", "Euphemia", "Jillian", "Kithri", "Lavinia", "Lidda", "Merla", "Nedda", "Portia", "Seraphina", "Shaena", "Trym", "Verna"],
+      "surname": ["Brushgather", "Goodbarrel", "Greenbottle", "High-hill", "Hilltopple", "Leagallow", "Tealeaf", "Thorngage", "Tosscobble", "Underbough", "Appleblossom", "Short-strider"]
+    },
+    "Orc": {
+      "male": ["Argran", "Borgath", "Dreg", "Ghorbash", "Grishnakh", "Hrogar", "Murgol", "Ogrul", "Rhorag", "Shagrol", "Thokk", "Urzog", "Yamarz", "Zul"],
+      "female": ["Baggi", "Emen", "Engong", "Ghorza", "Gra-Mug", "Lash", "Mazoga", "Mog", "Oghash", "Shel", "Shurkul", "Urzul", "Volen", "Yazgash"],
+      "surname": ["Doom-Hammer", "Iron-Tusk", "Skull-Crusher", "Blood-Axe", "Bone-Breaker", "Gut-Ripper", "Head-Chopper", "Sharp-Tooth", "Gro-Khash", "Gra-Oluk", "Face-Smasher"]
+    },
+    "Fantasy": {
+      "male": ["Aethel", "Bryce", "Corvus", "Draven", "Erevan", "Faelan", "Griffin", "Heiran", "Jareth", "Kael", "Lucien", "Malachi", "Nero", "Orion", "Percival", "Quill", "Riven", "Silas", "Thane", "Zephyr"],
+      "female": ["Aeliana", "Briar", "Cerys", "Dahlia", "Elora", "Feyre", "Guinevere", "Hesperia", "Ione", "Juno", "Lyra", "Morwenna", "Nyx", "Ophelia", "Persephone", "Rowan", "Seraphina", "Tamsin", "Vespera"],
+      "surname": ["Nightbreeze", "Shadowmend", "Starfall", "Winterbourne", "Ironwood", "Moonshadow", "Stormcloak", "Sunstrider", "Whisperwind", "Voidgazer", "Trueflame", "Brightwood"]
+    },
+    "Roman": {
+      "male": ["Marcus", "Lucius", "Gaius", "Tiberius", "Decimus", "Sextus", "Aulus", "Cassius", "Felix", "Julius", "Augustus", "Nero", "Titus", "Valerius", "Maximus"],
+      "female": ["Aelia", "Augusta", "Cassia", "Claudia", "Cornelia", "Fausta", "Flavia", "Julia", "Livia", "Marcella", "Octavia", "Portia", "Silvia", "Tullia", "Valeria"],
+      "surname": ["Aquilinus", "Cognomen", "Maximus", "Paulus", "Severus", "Albinus", "Cato", "Crassus", "Drusus", "Varro", "Cicero", "Brutus", "Scaevola", "Agrippa"]
+    },
+    "Japanese": {
+      "male": ["Akira", "Daichi", "Haruto", "Hiroshi", "Ichiro", "Jiro", "Kenji", "Kaito", "Minato", "Ren", "Sota", "Takashi", "Yamato", "Yuki", "Hideo"],
+      "female": ["Aoi", "Emi", "Hana", "Himari", "Ichika", "Kanon", "Mei", "Mio", "Rin", "Sakura", "Suki", "Tsubaki", "Yui", "Yuna", "Hina"],
+      "surname": ["Sato", "Suzuki", "Takahashi", "Tanaka", "Watanabe", "Ito", "Nakamura", "Kobayashi", "Yamamoto", "Kato", "Yoshida", "Yamada", "Sasaki", "Matsumoto", "Inoue"]
+    }
+  }
+}
